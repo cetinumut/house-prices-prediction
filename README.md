@@ -1,45 +1,34 @@
-# House Prices Prediction Project
+# House Prices Prediction
 
-This project is an end-to-end regression study based on the Kaggle **House Prices: Advanced Regression Techniques** dataset.  
-The goal is to predict house sale prices using data preprocessing, feature engineering, and model comparison.
+End-to-end regression project predicting house sale prices using the Kaggle House Prices dataset. 8 models tested with hyperparameter tuning.
 
-## Project Summary
+## Model Results
 
-In this project, missing values were handled with feature-specific logic, important outliers were removed, and new variables such as `TotalSF`, `TotalBath`, `HouseAge`, and `RemodAge` were created.  
-Since the target variable `SalePrice` was highly skewed, a `log1p` transformation was applied before modeling.
+| Model | RMSE | CV RMSE | R² |
+|---|---|---|---|
+| Linear Regression | 0.1214 | 0.1243 | 0.898 |
+| Lasso | 0.1168 | 0.1153 | 0.906 |
+| ElasticNet | 0.1168 | 0.1153 | 0.906 |
+| XGBoost (tuned) | 0.1203 | 0.1172 | 0.900 |
+| LightGBM (tuned) | 0.1278 | 0.1189 | 0.887 |
+| **Ridge (alpha=10)** | **0.1164** | **0.1149** | **0.907** |
 
-Categorical variables were encoded with one-hot encoding, and multiple models were tested, including:
+## Final Model
 
-- Linear Regression
-- Ridge Regression
-- Lasso
-- ElasticNet
-- Random Forest
-- Gradient Boosting
-- XGBoost
-- LightGBM
+**Ridge Regression (alpha=10)** — best performance across all models.
 
-## Final Result
+- **RMSE:** 0.1164 — lowest test error
+- **CV RMSE:** 0.1149 — best cross-validated generalization
+- **R²:** 0.907 — explains 90.7% of variance in house prices
 
-Among all evaluated models, **Ridge Regression (`alpha=10`)** achieved the best performance.
+> Despite hyperparameter tuning, Ridge outperformed XGBoost and LightGBM — demonstrating that regularized linear models can beat complex ensembles when preprocessing is done well.
 
-- **Linear Regression RMSE:** 0.1214
-- **Ridge RMSE:** 0.1164
-- **Ridge CV RMSE Mean:** 0.1149
+## Feature Engineering
+- Created: `TotalSF`, `TotalBath`, `HouseAge`, `RemodAge`
+- Log transformation on `SalePrice` (skewed target)
+- Outlier removal based on GrLivArea vs SalePrice
+- One-hot encoding for categorical variables
 
-## Conclusion
-
-This project demonstrates a complete machine learning workflow for a structured regression problem.  
-It highlights the importance of careful preprocessing, feature engineering, and model evaluation in improving model performance.
-
-## Project Structure
-
-```bash
-house-prices-prediction/
-│
-├── data/
-├── notebooks/
-├── outputs/
-├── README.md
-├── requirements.txt
-└── .gitignore
+## Technologies
+- Python, Pandas, NumPy, Matplotlib, Seaborn
+- Scikit-learn, XGBoost, LightGBM
